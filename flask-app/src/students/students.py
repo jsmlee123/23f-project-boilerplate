@@ -31,10 +31,8 @@ def get_students(major):
 	# query ... SELECT DISTINCT category As label, category as value 
 	# 	  FROM products
 	# 	  WHERE ...
-    
 @students.route('/mentors/<specialization>', methods=['GET'])
 def get_mentor_specialization(specialization):
-
     query = 'SELECT * FROM Mentor WHERE UPPER(Specialization)=UPPER(' + str(id) + ')'
     current_app.logger.info(query)
 
@@ -51,7 +49,7 @@ def get_mentor_specialization(specialization):
 
 
 # [GET] a list of all soft skill resources. [Alex-3] [Jane-4]
-@students.route('soft_skill_resources', method=['GET'])
+@students.route('/soft_skill_resources', methods=['GET'])
 def get_softskill_resources():
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Soft_Skill_Resource')
@@ -61,7 +59,7 @@ def get_softskill_resources():
     for row in theData:
         json_data.append(dict(zip(column_headers, row)))
 
-    return jsonify(json_data)
+    return ""
 
 #ALEX - PERSONA 1 (5)
 # [GET] Return all detailed information for a specific profile [Alex-2]
@@ -72,7 +70,7 @@ def get_profile_detail (p_id):
     column_headers = [x[0] for x in cursor.description]
     json_data = []
     the_data = cursor.fetchall()
-    if not theData:
+    if not the_data:
         return jsonify({"error": "Profile not found"}), 404
     for row in the_data:
         json_data.append(dict(zip(column_headers, row)))
@@ -84,10 +82,10 @@ def get_soft_skill_resource(title):
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Soft_Skill_Resource WHERE Title = %s', (title,))
     column_headers = [x[0] for x in cursor.description]
-    theData = cursor.fetchone()
-    if not theData:
+    the_data = cursor.fetchone()
+    if not the_data:
         return jsonify({"error": "Soft skill resource not found"}), 404
-    json_data = dict(zip(column_headers, theData))
+    json_data = dict(zip(column_headers, the_data))
     return jsonify(json_data)
 
 # [DELETE] Deletes this soft_skill_resource [Alex-4]
