@@ -7,10 +7,24 @@ students = Blueprint('students', __name__)
 
 # (Notes: can also be a dropdown in UI - Modify later)
 # Get student details for students with a particular major [Stella-1]
-@students.route('/students/<major>', methods=['GET'])
+@students.route('/students/<string:major>', methods=['GET'])
 def get_students(major):
     cursor = db.get_db().cursor()
     cursor.execute('select * from Student where UPPER(Major)=UPPER(%s)', (major))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+@students.route('/students/<int:id>', methods=['GET'])
+def get_student_by_id(id):
+    cursor = db.get_db().cursor()
+    cursor.execute('select * from Student where s_id=%s', (id))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -280,7 +294,7 @@ def get_student_network(s_id):
 @students.route('/network/<int:s_id>', methods=['PUT'])
 def update_network(s_id):
     data = request.json
-    new_connections = data.get('colleagues', [])
+    new_connections = data['colleagues']
     # Validate the data
     if not isinstance(new_connections, list):
         return jsonify({"error": "Invalid data format. 'colleagues' should be a list."}), 400
