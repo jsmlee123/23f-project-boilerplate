@@ -227,7 +227,7 @@ def update_mentoring_resource(title):
     return 'Success!'
 
 @mentors.route('/mentoring_resource/<title>', methods=['DELETE'])
-def update_mentoring_resource(title):
+def delete_mentoring_resource(title):
     cursor = db.get_db().cursor()
 
     # Define query

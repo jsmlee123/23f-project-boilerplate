@@ -317,4 +317,4 @@ def delete_student_from_network(s_id):
 
     db.get_db().commit()
 
-    return jsonify({"success": True, "message": "Student removed from network successfully"}), 200
+    return jsonify({"success": True, "message": "Student removed from network successfully"}), 200 
