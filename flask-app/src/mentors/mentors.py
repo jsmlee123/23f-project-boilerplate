@@ -5,10 +5,24 @@ from src import db
 
 mentors = Blueprint('mentors', __name__)
 
-@mentors.route('/mentors/<specialization>', methods=['GET'])
+@mentors.route('/mentors/<string:specialization>', methods=['GET'])
 def get_mentors(specialization):
     cursor = db.get_db().cursor()
     cursor.execute('select * from Mentor where UPPER(Specialization)=UPPER(%s)', (specialization))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+@mentors.route('/mentors/<int:id>', methods=['GET'])
+def get_mentor(id):
+    cursor = db.get_db().cursor()
+    cursor.execute('select * from Mentor where UPPER(m_id)=UPPER(%s)', (id))
     row_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -97,6 +111,19 @@ def get_schedule(schedule_id):
     the_response.mimetype = 'application/json'
     return the_response
 
+@mentors.route('/schedule/mentor/<int:m_id>', methods=['GET'])
+def get_schedule_by_mentor(m_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Schedule WHERE m_id = ' + str(m_id))
+    column_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
 
 @mentors.route('/schedule/<int:schedule_id>', methods=['PUT'])
 def update_schedule(schedule_id):

@@ -73,7 +73,7 @@ def get_softskill_resources():
     for row in theData:
         json_data.append(dict(zip(column_headers, row)))
 
-    return ""
+    return jsonify(json_data)
 
 #ALEX - PERSONA 1 (5)
 # [GET] Return all detailed information for a specific profile [Alex-2]
