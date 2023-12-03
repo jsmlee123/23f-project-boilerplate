@@ -115,3 +115,17 @@ def delete_lab(lab_name):
     db.get_db().commit()
     
     return 'Success!'
+
+# Get the college associated with a specific mentor
+@colleges.route('/mentor_college/<int:m_id>', methods=['GET'])
+def get_mentor_college(m_id):
+    cursor = db.get_db().cursor()
+    cursor.execute(
+        'SELECT College.* FROM College JOIN Associated_With ON College.College_Name = Associated_With.College_Name WHERE Associated_With.m_id = %s', 
+        (m_id,)
+    )
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchone()  # Assuming a mentor is associated with only one college
+    json_data = dict(zip(row_headers, theData))
+    return jsonify(json_data)
