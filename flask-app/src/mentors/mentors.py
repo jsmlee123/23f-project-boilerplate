@@ -5,7 +5,7 @@ from src import db
 
 mentors = Blueprint('mentors', __name__)
 
-@mentors.route('/mentors/<specialization>', methods=['GET'])
+@mentors.route('/mentors/<string:specialization>', methods=['GET'])
 def get_mentors(specialization):
     cursor = db.get_db().cursor()
     cursor.execute('select * from Mentor where UPPER(Specialization)=UPPER(%s)', (specialization))
@@ -19,10 +19,38 @@ def get_mentors(specialization):
     the_response.mimetype = 'application/json'
     return the_response
 
-@mentors.route('/professional_page/<int:p_id>', methods=['GET'])
-def get_professional_page(p_id):
+@mentors.route('/mentors/<int:id>', methods=['GET'])
+def get_mentor(id):
     cursor = db.get_db().cursor()
-    cursor.execute('SELECT * FROM Professional_Page WHERE p_id = ' + str(p_id))
+    cursor.execute('select * from Mentor where UPPER(m_id)=UPPER(%s)', (id))
+    row_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(row_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+@mentors.route('/professional_page/<int:m_id>', methods=['GET'])
+def get_professional_page(m_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Professional_Page WHERE m_id = ' + str(m_id))
+    column_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
+
+@mentors.route('/professional_page/accreditations/<int:m_id>', methods=['GET'])
+def get_professional_accreditations(m_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT Accred_Type as Accreditations FROM Professional_Page JOIN Accreditations WHERE m_id = ' + str(m_id))
     column_headers = [x[0] for x in cursor.description]
     json_data = []
     theData = cursor.fetchall()
@@ -97,6 +125,19 @@ def get_schedule(schedule_id):
     the_response.mimetype = 'application/json'
     return the_response
 
+@mentors.route('/schedule/mentor/<int:m_id>', methods=['GET'])
+def get_schedule_by_mentor(m_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT * FROM Schedule WHERE m_id = ' + str(m_id))
+    column_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response
 
 @mentors.route('/schedule/<int:schedule_id>', methods=['PUT'])
 def update_schedule(schedule_id):
@@ -121,11 +162,28 @@ def update_schedule(schedule_id):
     '''
     
     # executes query
-    cursor.execute(query, (event_type, start_time, end_time, background, m_id))
+    cursor.execute(query, (event_type, start_time, end_time, background, m_id, schedule_id))
     db.get_db().commit()
 
     return 'Success!'
 
+@mentors.route('/schedule/<int:schedule_id>', methods=['DELETE'])
+def delete_schedule(schedule_id):
+    cursor = db.get_db().cursor()
+
+    # Define query
+    query = '''
+        DELETE FROM Schedule
+        WHERE schedule_id = %s
+    '''
+
+    # Execute query
+    cursor.execute(query, (schedule_id))
+
+    # Commit changes to the database
+    db.get_db().commit()
+
+    return 'Success!'
 
 @mentors.route('/schedule', methods=['POST'])
 def create_schedule():
@@ -287,3 +345,18 @@ def update_profile(p_id):
     db.get_db().commit()
 
     return 'Success!'
+
+
+@mentors.route('/work_place/<m_id>', methods=['GET'])
+def get_workplaces(m_id):
+    cursor = db.get_db().cursor()
+    cursor.execute('SELECT CompanyName FROM Works_At JOIN Mentor WHERE Mentor.m_id=' + str(m_id))
+    column_headers = [x[0] for x in cursor.description]
+    json_data = []
+    theData = cursor.fetchall()
+    for row in theData:
+        json_data.append(dict(zip(column_headers, row)))
+    the_response = make_response(jsonify(json_data))
+    the_response.status_code = 200
+    the_response.mimetype = 'application/json'
+    return the_response

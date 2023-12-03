@@ -27,21 +27,18 @@ def add_new_college():
     the_data = request.json
     current_app.logger.info(the_data)
 
-    #extracting the variable
+    # extracting the variables
     name = the_data['college_name']
     ranking = the_data['ranking']
     appreqs = the_data['appreqs']
 
-    # Constructing the query
-    query = 'insert into College (College_Name, Ranking, AppReqs) values ("'
-    query += name + '", "'
-    query += ranking + '", "'
-    query += str(appreqs) + ')'
+    # Constructing the query with parameterized values
+    query = 'INSERT INTO College (College_Name, Ranking, AppReqs) VALUES (%s, %s, %s)'
     current_app.logger.info(query)
 
-    # executing and committing the insert statement 
+    # executing and committing the insert statement with parameters
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, (name, ranking, appreqs))
     db.get_db().commit()
     
     return 'Success!'
@@ -61,7 +58,7 @@ def update_college(college_name):
     # executing and committing the insert statement 
     cursor = db.get_db().cursor()
     # Execute the UPDATE query
-    cursor.execute("UPDATE College SET Ranking = %s, SET AppReqs = %s, WHERE College_Name = %s", (ranking, appreqs, name))
+    cursor.execute("UPDATE College SET Ranking = %s, AppReqs = %s WHERE College_Name = %s", (ranking, appreqs, name))
     db.get_db().commit()
     
     return 'Success!'
@@ -88,20 +85,17 @@ def add_new_lab(college_name):
     the_data = request.json
     current_app.logger.info(the_data)
 
-    #extracting the variable
+    # extracting the variables
     lab_name = the_data['lab_name']
     lab_type = the_data['lab_type']
 
-    # Constructing the query
-    query = 'insert into Lab (Lab_Name, LabType, College_Name) values ("'
-    query += lab_name + '", "'
-    query += lab_type + '", "'
-    query += college_name + ')'
+    # Constructing the query with parameterized values
+    query = 'INSERT INTO Lab (Lab_Name, LabType, College_Name) VALUES (%s, %s, %s)'
     current_app.logger.info(query)
 
-    # executing and committing the insert statement 
+    # executing and committing the insert statement with parameters
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, (lab_name, lab_type, college_name))
     db.get_db().commit()
     
     return 'Success!'
@@ -111,7 +105,7 @@ def delete_lab(lab_name):
 
     # executing and committing the insert statement 
     cursor = db.get_db().cursor()
-    cursor.execute("DELETE FROM College WHERE Lab_Name = %s", (lab_name))
+    cursor.execute("DELETE FROM Lab WHERE Lab_Name = %s", (lab_name))
     db.get_db().commit()
     
     return 'Success!'
