@@ -19,7 +19,7 @@ def get_mentors(specialization):
     the_response.mimetype = 'application/json'
     return the_response
 
-@mentors.route('/professional_page/<p_id>', methods=['GET'])
+@mentors.route('/professional_page/<int:p_id>', methods=['GET'])
 def get_professional_page(p_id):
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Professional_Page WHERE p_id = ' + str(p_id))
@@ -33,7 +33,7 @@ def get_professional_page(p_id):
     the_response.mimetype = 'application/json'
     return the_response
 
-@mentors.route('/professional_page/<p_id>', methods=['PUT'])
+@mentors.route('/professional_page/<int:p_id>', methods=['PUT'])
 def update_professional_page(p_id):
     cursor = db.get_db().cursor()
 
@@ -83,7 +83,7 @@ def create_professional_page():
     return 'Success!'
 
 
-@mentors.route('/schedule/<schedule_id>', methods=['GET'])
+@mentors.route('/schedule/<int:schedule_id>', methods=['GET'])
 def get_schedule(schedule_id):
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Schedule WHERE schedule_id = ' + str(schedule_id))
@@ -98,7 +98,7 @@ def get_schedule(schedule_id):
     return the_response
 
 
-@mentors.route('/schedule/<schedule_id>', methods=['PUT'])
+@mentors.route('/schedule/<int:schedule_id>', methods=['PUT'])
 def update_schedule(schedule_id):
     cursor = db.get_db().cursor()
 
@@ -244,7 +244,7 @@ def update_mentoring_resource(title):
 
     return 'Success!'
 
-@mentors.route('/profile/<p_id>', methods=['GET'])
+@mentors.route('/profile/<int:p_id>', methods=['GET'])
 def get_profile(p_id):
     cursor = db.get_db().cursor()
     cursor.execute('SELECT * FROM Profile WHERE p_id =' + str(p_id) )
@@ -283,11 +283,7 @@ def update_profile(p_id):
     # executes query
     cursor.execute(query, (first_name, last_name, phone, email, background, p_id))
     
-    # commits changes to the database
+    # commits changes to database
     db.get_db().commit()
 
     return 'Success!'
-
-
-
-
