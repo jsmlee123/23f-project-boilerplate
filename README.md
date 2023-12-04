@@ -21,7 +21,7 @@ Our App is intented for college students to be able to connect to mentors to get
 Students may find valuable opportunities after college through these mentors.
 
 Video Demo: 
-
+https://northeastern.zoom.us/rec/share/E7KK3OvptybZLGoKuSaDyoNDW9et_CVa2c3LUbpaFoEzBZzo0A0S30ue2BWXvfOQ.arLxzsoR7ITC0PL7?startTime=1701717959000
 
 
 
