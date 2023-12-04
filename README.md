@@ -20,6 +20,11 @@ This repo contains a boilerplate setup for spinning up 3 Docker containers:
 Our App is intented for college students to be able to connect to mentors to get advice/resources.
 Students may find valuable opportunities after college through these mentors.
 
+Video Demo: 
+
+https://github.com/jsmlee123/23f-project-boilerplate/assets/76448836/be415976-2124-4cab-851e-581de68adf39
+
+
 
 
 
