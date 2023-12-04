@@ -254,7 +254,7 @@ CREATE TABLE Access_MR (
 
 CREATE TABLE Accreditations (
   p_id int NOT NULL,
-  Accred_Type VARCHAR(40),
+  Accred_Type VARCHAR(40) NOT NULL,
   PRIMARY KEY (p_id),
   FOREIGN KEY (p_id)
     REFERENCES Professional_Page (p_id)
@@ -2090,8 +2090,36 @@ VALUES
 (30, 'Advice'),
 (30, 'Relatability');
 
--- INSERT INTO Accreditations
---     (p_id, Accred_Type)
--- VALUES
---     (1, 'doctorate'),
---     (2, 'phd');
+INSERT INTO Accreditations
+    (p_id, Accred_Type)
+VALUES
+(1, 'Regional'),
+(2, 'Specialized'),
+(3, 'International'),
+(4, 'Programmatic'),
+(5, 'Regional'),
+(6, 'Specialized'),
+(7, 'International'),
+(8, 'Programmatic'),
+(9, 'Regional'),
+(10, 'Specialized'),
+(11, 'International'),
+(12, 'Programmatic'),
+(13, 'Regional'),
+(14, 'Specialized'),
+(15, 'International'),
+(16, 'Programmatic'),
+(17, 'Regional'),
+(18, 'Specialized'),
+(19, 'International'),
+(20, 'Programmatic'),
+(21, 'Regional'),
+(22, 'Specialized'),
+(23, 'International'),
+(24, 'Programmatic'),
+(25, 'Regional'),
+(26, 'Specialized'),
+(27, 'International'),
+(28, 'Programmatic'),
+(29, 'Regional'),
+(30, 'Specialized');
