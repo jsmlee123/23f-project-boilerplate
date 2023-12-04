@@ -13,7 +13,12 @@ This repo contains a boilerplate setup for spinning up 3 Docker containers:
 1. Create a file named `db_password.txt` in the `secrets/` folder and put inside of it the password you want to use for the a non-root user named webapp. 
 1. In a terminal or command prompt, navigate to the folder with the `docker-compose.yml` file.  
 1. Build the images with `docker compose build`
-1. Start the containers with `docker compose up`.  To run in detached mode, run `docker compose up -d`. 
+1. Start the containers with `docker compose up`.  To run in detached mode, run `docker compose up -d`.
+
+
+## Project Overview
+Our App is intented for college students to be able to connect to mentors to get advice/resources.
+Students may find valuable opportunities after college through these mentors.
 
 
 
