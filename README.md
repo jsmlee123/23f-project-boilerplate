@@ -22,8 +22,6 @@ Students may find valuable opportunities after college through these mentors.
 
 Video Demo: 
 
-https://github.com/jsmlee123/23f-project-boilerplate/assets/76448836/be415976-2124-4cab-851e-581de68adf39
-
 
 
 
